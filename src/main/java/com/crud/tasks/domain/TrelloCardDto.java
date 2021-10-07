@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class TrelloCardDto {
 
-    private String name;
-    private String description;
-    private String pos;
-    private String listId;
+    private final String name;
+    private final String description;
+    private final String pos;
+    private final String listId;
 }
