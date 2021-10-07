@@ -1,8 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.3.10.RELEASE'
+	id 'org.springframework.boot' version '2.5.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	//id 'war'
+//	id 'war'
 }
 
 group = 'com.crud'
@@ -15,19 +15,20 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	//runtimeOnly 'mysql:mysql-connector-java'
-	runtimeOnly 'org.postgresql:postgresql'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-	compileOnly 'org.projectlombok:lombok:1.18.18'
-	annotationProcessor 'org.projectlombok:lombok:1.18.18'
-	testCompileOnly 'org.projectlombok:lombok:1.18.18'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.18'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	//providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.20'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+	implementation group: 'mysql', name: 'mysql-connector-java'
+//	implementation group: 'org.postgresql', name: 'postgresql'
+
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 test {
