@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/v1/task")
+@RequestMapping("/v1/")
 @RequiredArgsConstructor
 public class TaskController {
 
@@ -30,7 +30,6 @@ public class TaskController {
         return taskMapper.mapToTaskDto(service.getTask(taskId).orElseThrow(TaskNotFoundException::new));
     }
 
-    // Kodilla exercise 19.3 write the method to remove one task by ID
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
     public void deleteTask(@RequestParam Long taskId) {
         service.delete(taskId);
