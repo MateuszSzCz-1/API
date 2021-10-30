@@ -1,9 +1,7 @@
 package com.crud.tasks.client;
 
 import com.crud.tasks.config.TrelloConfig;
-import com.crud.tasks.domain.CreatedTrelloCardDto;
-import com.crud.tasks.domain.TrelloBoardDto;
-import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.domain.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -92,4 +90,30 @@ class TrelloClientTest {
         // then
         assertEquals(0, emptyList.size());
     }
+
+    // Kodilla exercise 29.2 further development of tests (in order to increase coverage)
+    @Test
+    public void testCreateNewCard() throws URISyntaxException {
+        // Given
+        when(trelloConfig.getTrelloApiEndpoint()).thenReturn("http://test.io");
+        when(trelloConfig.getTrelloAppKey()).thenReturn("test");
+        when(trelloConfig.getTrelloToken()).thenReturn("test");
+        TrelloCardDto trelloCardDto = new TrelloCardDto("theName", "Descr", "top", "101");
+        URI uri = new URI("http://test.io/cards?key=test&token=test&name=theName&desc=Descr&pos=top&idList=101");
+        Trello trello = new Trello(1, 2);
+        AttachmentsByType attachments = new AttachmentsByType(trello);
+        Badges badges = new Badges(2, attachments);
+        CreatedTrelloCardDto card = new CreatedTrelloCardDto("101", "theName", "http://test.io", badges);
+        when(restTemplate.postForObject(uri, null, CreatedTrelloCardDto.class)).thenReturn(card);
+        // When
+        CreatedTrelloCardDto newCard = trelloClient.createNewCard(trelloCardDto);
+        // Then
+        assertEquals("101", newCard.getId());
+        assertEquals("theName", newCard.getName());
+        assertEquals("http://test.io", newCard.getShortUrl());
+        assertEquals(2, newCard.getBadges().getVotes());
+        assertEquals(1, newCard.getBadges().getAttachmentsByType().getTrello().getBoard());
+        assertEquals(2, newCard.getBadges().getAttachmentsByType().getTrello().getCard());
+    }
+
 }
