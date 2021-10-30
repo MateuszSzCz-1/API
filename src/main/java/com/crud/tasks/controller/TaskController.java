@@ -32,8 +32,10 @@ public class TaskController {
 
     // Kodilla exercise 19.3 write the method to remove one task by ID
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(@RequestParam Long taskId) {
+    public TaskDto deleteTask(@RequestParam Long taskId) throws TaskNotFoundException {
+        TaskDto tmpObject = taskMapper.mapToTaskDto(service.getTask(taskId).orElseThrow(TaskNotFoundException::new));
         service.delete(taskId);
+        return tmpObject;
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")

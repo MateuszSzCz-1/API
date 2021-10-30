@@ -4,9 +4,7 @@ import com.crud.tasks.domain.CreatedTrelloCardDto;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.fcade.TrelloFacade;
-import com.crud.tasks.service.TrelloService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,16 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrelloController {
 
-    @Autowired
-    private final TrelloFacade trelloFacade;
+    private final TrelloFacade facade;
 
     @GetMapping("getTrelloBoards")
     public List<TrelloBoardDto> getTrelloBoards() {
-        return trelloFacade.fetchTrelloBoards();
+        return facade.fetchTrelloBoards();
     }
 
     @PostMapping("createTrelloCard")
-    public CreatedTrelloCardDto createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
-        return trelloFacade.createCard(trelloCardDto);
+    public CreatedTrelloCardDto createTrelloCard(@RequestBody TrelloCardDto dto) {
+        return facade.createCard(dto);
     }
 }
