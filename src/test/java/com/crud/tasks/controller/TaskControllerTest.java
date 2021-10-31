@@ -1,6 +1,7 @@
 package com.crud.tasks.controller;
 
 import com.crud.tasks.domain.TaskDto;
+
 import com.google.gson.Gson;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ class TaskControllerTest {
         when(controller.getTasks()).thenReturn(List.of());
         // when & then
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/v1/task/getTasks")
+                        .get("/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
@@ -45,7 +46,7 @@ class TaskControllerTest {
         when(controller.getTasks()).thenReturn(dtoList);
         // when & then
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/v1/task/getTasks")
+                        .get("/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
@@ -61,8 +62,7 @@ class TaskControllerTest {
         when(controller.getTask(2L)).thenReturn(dto);
         // when & then
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/v1/task/getTask")
-                        .param("taskId", "2")
+                        .get("/v1/tasks/2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(2)))
@@ -77,8 +77,7 @@ class TaskControllerTest {
         when(controller.deleteTask(3L)).thenReturn(dto);
         // when & then
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/v1/task/deleteTask")
-                        .param("taskId", "3")
+                        .delete("/v1/tasks/3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(200));
     }
@@ -93,7 +92,7 @@ class TaskControllerTest {
         String json = gson.toJson(dtoIn);
         // when & then
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/v1/task/updateTask")
+                        .put("/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8").content(json))
                 .andExpect(MockMvcResultMatchers.status().is(200))
@@ -107,12 +106,12 @@ class TaskControllerTest {
         // given
         TaskDto dtoIn  = new TaskDto(5L, "test title 5", "test content 5");
         TaskDto dtoOut = new TaskDto(5L, "created task", "content created");
-        when(controller.updateTask(any(TaskDto.class))).thenReturn(dtoOut);
+        when( controller.createTask(any(TaskDto.class))).thenReturn(dtoOut);
         Gson gson = new Gson();
         String json = gson.toJson(dtoIn);
         // when & then
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/v1/task/updateTask")
+                        .post("/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8").content(json))
                 .andExpect(MockMvcResultMatchers.status().is(200))
