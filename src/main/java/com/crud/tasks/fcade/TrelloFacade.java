@@ -16,7 +16,7 @@ public class TrelloFacade {
     @Autowired
     private TrelloMapper trelloMapper;
     @Autowired
-    private TrelloValidator trelloValidator;
+    private TrelloValidator trello ;
 
     public List<TrelloBoardDto> fetchTrelloBoards() {
         List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(trelloService.fetchTrelloBoards());
@@ -26,7 +26,7 @@ public class TrelloFacade {
 
     public CreatedTrelloCardDto createCard(final TrelloCardDto trelloCardDto) {
         TrelloCard trelloCard = trelloMapper.mapToCard(trelloCardDto);
-        trelloValidator.validateCard(trelloCard);
+        trello.validateCard(trelloCard);
         return trelloService.createTrelloCard(trelloMapper.mapToCardDto(trelloCard));
     }
 }
